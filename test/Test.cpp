@@ -1,3 +1,8 @@
+// Test.cpp
+// A batch of unit tests with its own main() function that runs the tests.
+//
+// Author: Libor Vytlacil
+
 #include "../SequenceParser.h"
 #include "../Logik.h"
 #include <iostream>
@@ -18,6 +23,7 @@ public:
 	}
 };
 
+// Gets a string represenation of a vector
 template <typename T> string stringifyVector(const vector<T>& vec) {
 	string result = "[";
 	for (size_t i = 0; i < vec.size(); ++i) {
@@ -28,20 +34,15 @@ template <typename T> string stringifyVector(const vector<T>& vec) {
 	return result;
 }
 
-void assertEquals(const vector<int>& expected, const vector<int>& actual) {
+// Asserts an equality of two vectors
+template <typename T> void assertEquals(const vector<T>& expected, const vector<T>& actual) {
 	if (expected != actual) {
 		throw test_assert_error("Vectors are not equal: " + stringifyVector(expected) +
 			" != " + stringifyVector(actual));
 	}
 }
 
-void assertEquals(const vector<MatchIndicator>& expected, const vector<MatchIndicator>& actual) {
-	if (expected != actual) {
-		throw test_assert_error("Vectors are not equal: " + stringifyVector(expected) +
-			" != " + stringifyVector(actual));
-	}
-}
-
+// Asserts that parsing throws an exception
 void assertParseDigitThrows(const string& input) {
 	try {
 		parseDigitSequence(input);
@@ -52,9 +53,10 @@ void assertParseDigitThrows(const string& input) {
 	throw test_assert_error("Parsing did not throw an invalid argument exception: " + input);
 }
 
+// Asserts that sequence comparsion throws an exception
 void assertSequenceComparisonThrows(const vector<int>& arg1, const vector<int>& arg2) {
 	try {
-		compareCombinations(arg1, arg2);
+		compareSequences(arg1, arg2);
 	}
 	catch (invalid_argument&) {
 		return;
@@ -63,6 +65,7 @@ void assertSequenceComparisonThrows(const vector<int>& arg1, const vector<int>& 
 		stringifyVector(arg1) + ", " + stringifyVector(arg2));
 }
 
+// Asserts that an input validation succeeds.
 void assertSuccesfulInputValidation(const vector<int>& vec, int length, int max) {
 	try {
 		validateNumberSequence(vec, length, max);
@@ -73,6 +76,7 @@ void assertSuccesfulInputValidation(const vector<int>& vec, int length, int max)
 	}
 }
 
+// Tests sequence parsing
 void testSequenceParsing() {
 	vector<int> expected = { 1, 1, 1, 1 };
 	vector<int> actual = parseDigitSequence("1111");
@@ -94,18 +98,19 @@ void testSequenceParsing() {
 	assertParseDigitThrows("1203");
 }
 
+// Tests seqence comparison
 void testSequenceComparison() {
 	vector<int> arg1 = { 1, 2, 4, 7 };
 	vector<int> arg2 = { 1, 2, 4, 7 };
 	vector<MatchIndicator> expected = { MatchIndicator::FULL_MATCH, MatchIndicator::FULL_MATCH,
 		MatchIndicator::FULL_MATCH, MatchIndicator::FULL_MATCH };
-	assertEquals(expected, compareCombinations(arg1, arg2));
+	assertEquals(expected, compareSequences(arg1, arg2));
 
 	arg1 = { 1, 2, 4, 7 };
 	arg2 = { 2, 1, 4, 6 };
 	expected = { MatchIndicator::OCCURENCE_MATCH, MatchIndicator::OCCURENCE_MATCH,
 		MatchIndicator::FULL_MATCH, MatchIndicator::NO_MATCH };
-	assertEquals(expected, compareCombinations(arg1, arg2));
+	assertEquals(expected, compareSequences(arg1, arg2));
 
 	arg1 = { 1, 2, 3, 4 };
 	arg2 = { 1, 2, 3, 4, 5 };
@@ -113,19 +118,19 @@ void testSequenceComparison() {
 	assertSequenceComparisonThrows(arg2, arg1);
 }
 
+// Test input validation
 void testInputValidation() {
 	vector<int> arg = { 1, 4, 2, 5 };
 	assertSuccesfulInputValidation(arg, 4, 5);
 	assertSuccesfulInputValidation(arg, 4, 8);
-
 }
 
 int main() {
-	// TODO
 	try {
 		testSequenceParsing();
 		testSequenceComparison();
-		cout << "PASS";
+		testInputValidation();
+		cout << "PASS" << endl;
 	}
 	catch (test_assert_error& ex) {
 		cout << "FAIL: " << endl;

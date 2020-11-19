@@ -1,5 +1,7 @@
-﻿// Logik.h : Include file for standard system include files,
-// or project specific include files.
+﻿// Logik.h
+// Contains definitions of methods for generating and comparing number sequences.
+//
+// Author: Libor Vytlacil
 
 #pragma once
 
@@ -13,17 +15,25 @@ enum class MatchIndicator {
 	FULL_MATCH
 };
 
-/**
-* Creates a vector of size 'count' with unique integers from the set {1, 2, ..., max}.
-*/
-std::vector<int> createCombination(int count, int max, const std::function<int()>& getRand);
+/// <summary>
+/// Creates a vector of size 'count' consisting of unique integers from the set {1, 2, ..., max}.
+/// </summary>
+/// <param name="count">size of the vector</param>
+/// <param name="max">max number that can appear in the vector</param>
+/// <param name="getRand">function that should return a non-negative integer
+/// from a uniform distribution.</param>
+/// <returns>created vector</returns>
+std::vector<int> createRandSeuqnce(int count, int max, const std::function<int()>& getRand);
 
-/**
-* Compares the given guess vector with the given reference vector.
-*
-* @returns a vector of the same size as the input vectors, whose i-th element is:
-* FULL_MATCH if guess[i] == reference[i]
-* OCCURENCE_MATCH if guess[i] != reference[j] and guess[i] == reference[j] for some i != j
-* NO_MATCH otherwise
-*/
-std::vector<MatchIndicator> compareCombinations(std::vector<int> guess, std::vector<int> reference);
+/// <summary>
+/// Compares the given 'guess' vector with the given 'reference' vector.
+/// </summary>
+/// <param name="guess">guess vector</param>
+/// <param name="reference">eference vector</param>
+/// <returns>Vector of the same length as the input, where i th element is:
+/// <ul>
+/// <li>FULL_MATCH if guess[i] == reference[i]</li>
+/// <li>OCCURENCE_MATCH if guess[i] != reference[i] and guess[i] == reference[j] for some i != j.</li>
+/// </ul>
+/// </returns>
+std::vector<MatchIndicator> compareSequences(std::vector<int> guess, std::vector<int> reference);

@@ -1,3 +1,8 @@
+// SequenceParser.cpp
+// Implementation of SequencecParser.h
+//
+// Author: Libor Vytlacil
+
 #include "SequenceParser.h"
 #include <stdexcept>
 #include <set>

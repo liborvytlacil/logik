@@ -1,5 +1,7 @@
-﻿// Logik.cpp : Defines the entry point for the application.
+﻿// Logik.cpp
+// Implementation of Logik.h
 //
+// Author: Libor Vytlacil
 
 #include "Logik.h"
 #include <algorithm>
@@ -7,7 +9,7 @@
 
 using namespace std;
 
-std::vector<int> createCombination(int count, int max, const std::function<int()> &getRand) {
+std::vector<int> createRandSeuqnce(int count, int max, const std::function<int()> &getRand) {
 	if (count < 1 || max < 1 || count > max) {
 		throw std::invalid_argument("Both count and max must be positive and count <= max");
 	}
@@ -35,7 +37,7 @@ std::vector<int> createCombination(int count, int max, const std::function<int()
 	return result;
 }
 
-std::vector<MatchIndicator> compareCombinations(std::vector<int> guess, std::vector<int> reference) {
+std::vector<MatchIndicator> compareSequences(std::vector<int> guess, std::vector<int> reference) {
 	if (guess.size() != reference.size()) {
 		throw std::invalid_argument("Both input vectors must be of the same size.");
 	}

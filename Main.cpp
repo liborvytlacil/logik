@@ -1,3 +1,8 @@
+// Main.h
+// Contains the game loop code.
+//
+// Author: Libor Vytlacil
+
 #include <iostream>
 #include <ctime>
 #include "SequenceParser.h"
@@ -22,7 +27,7 @@ int main() {
 
 	cout << "Welcome to Logik!" << endl;
 	cout << "You need to guess a random sequence of " << length << " unique numbers out of the set "
-		"{1, 2, ..., " << max << "}." << endl;
+		"{1, 2, ..., " << max << "}, e.g. 12345" << endl;
 	cout << "Each guess is followed by a hint showing you how you guessed each number: " << endl;
 	cout << "\t" << matchIndicatorToChar(MatchIndicator::FULL_MATCH) <<
 		" - You guessed a correct number at a correct position." << endl;
@@ -30,12 +35,13 @@ int main() {
 		" - You guessed a correct number but at a wrong position." << endl;
 	cout << "\t" << matchIndicatorToChar(MatchIndicator::NO_MATCH) <<
 		" - You guessed an incorrect number." << endl;
+	cout << "Example: " << endl << "Guess: " << "63125"<< endl << "Hint: XOOOM" << endl;
 	cout << "**********************************************************" << endl << endl;
 
 
 	srand(time(nullptr));
 	auto getRand = []() {return rand(); };
-	std::vector<int> answer = createCombination(length, max, getRand);
+	std::vector<int> answer = createRandSeuqnce(length, max, getRand);
 
 	bool win = false;
 	while (!win) {
@@ -46,9 +52,9 @@ int main() {
 		try {
 			vector<int> guess = parseDigitSequence(input);
 			validateNumberSequence(guess, length, max);
-			vector<MatchIndicator> result = compareCombinations(guess, answer);
+			vector<MatchIndicator> result = compareSequences(guess, answer);
 
-			cout << "Answer: ";
+			cout << "Hint: ";
 			win = true;
 			for (const MatchIndicator val : result) {
 				if (val != MatchIndicator::FULL_MATCH) {
