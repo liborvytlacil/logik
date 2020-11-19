@@ -3,10 +3,11 @@
 
 #include "Logik.h"
 #include <algorithm>
+#include <functional>
 
 using namespace std;
 
-std::vector<int> createCombination(int count, int max) {
+std::vector<int> createCombination(int count, int max, const std::function<int()> &getRand) {
 	if (count < 1 || max < 1 || count > max) {
 		throw std::invalid_argument("Both count and max must be positive and count <= max");
 	}
@@ -19,7 +20,9 @@ std::vector<int> createCombination(int count, int max) {
 
 	// make a permutation of the vector
 	for (int i = 0; i < max; ++i) {
-		int swapIndex = i; // TODO: random from i to max - 1
+		// getRand() % (max - i) generates a pseudorandom number from 0 to max - i - 1.
+		// This simple approach might introduce a slight bias.
+		int swapIndex = i + (getRand() % (max - i));
 		int temp = result[i];
 		result[i] = result[swapIndex];
 		result[swapIndex] = temp;

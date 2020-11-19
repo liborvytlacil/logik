@@ -3,6 +3,12 @@
 #include <vector>
 #include <string>
 
+class parse_error : std::exception {
+};
+
+class invalid_input : std::exception {
+};
+
 /**
 * Parses the given string into a vector of numbers. The string is iterated character by character, mapping
 * '1' to number 1, '2' to number 2, etc. Spaces between digits are skipped.

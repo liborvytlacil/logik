@@ -1,5 +1,6 @@
 #include "SequenceParser.h"
 #include <stdexcept>
+#include <set>
 
 std::vector<int> parseDigitSequence(const std::string& input) {
 	std::vector<int> result;
@@ -37,11 +38,33 @@ std::vector<int> parseDigitSequence(const std::string& input) {
 		case ' ':
 			continue;
 		default:
-			throw std::invalid_argument("Cannot parse a character: " + input[i]);
+			throw parse_error{};
 		}
 
 		result.push_back(digit);
 	}
 
 	return result;
+}
+
+void validateNumberSequence(const std::vector<int>& digitSequence, int expectedLength, int expectedMax) {
+	if (expectedLength < 0 || expectedMax < 0 || expectedLength > expectedMax) {
+		throw std::invalid_argument("Invalid arguments passed. Both expected length and max must be "
+			"positive with the length smaller than the max");
+	}
+
+	if (digitSequence.size() != expectedLength) {
+		throw invalid_input{};
+	}
+
+	std::set<int> encounteredNumbers;
+	for (int number : digitSequence) {
+		if (number <= 0 || number > expectedMax) {
+			throw invalid_input{};
+		}
+		if (encounteredNumbers.find(number) != encounteredNumbers.cend()) {
+			throw invalid_input{};
+		}
+		encounteredNumbers.insert(number);
+	}
 }

@@ -46,7 +46,7 @@ void assertParseDigitThrows(const string& input) {
 	try {
 		parseDigitSequence(input);
 	}
-	catch (invalid_argument&) {
+	catch (parse_error&) {
 		return;
 	}
 	throw test_assert_error("Parsing did not throw an invalid argument exception: " + input);
@@ -61,6 +61,16 @@ void assertSequenceComparisonThrows(const vector<int>& arg1, const vector<int>& 
 	}
 	throw test_assert_error("Sequence comparison did not throw an invalid argument exception. Input: " +
 		stringifyVector(arg1) + ", " + stringifyVector(arg2));
+}
+
+void assertSuccesfulInputValidation(const vector<int>& vec, int length, int max) {
+	try {
+		validateNumberSequence(vec, length, max);
+	}
+	catch (invalid_input&) {
+		throw test_assert_error("Input was considered invalid: " + stringifyVector(vec) + ", length: " +
+			to_string(length) + ", max:" + to_string(max));
+	}
 }
 
 void testSequenceParsing() {
@@ -103,6 +113,13 @@ void testSequenceComparison() {
 	assertSequenceComparisonThrows(arg2, arg1);
 }
 
+void testInputValidation() {
+	vector<int> arg = { 1, 4, 2, 5 };
+	assertSuccesfulInputValidation(arg, 4, 5);
+	assertSuccesfulInputValidation(arg, 4, 8);
+
+}
+
 int main() {
 	// TODO
 	try {
@@ -114,4 +131,10 @@ int main() {
 		cout << "FAIL: " << endl;
 		cout << ex.getMessage() << endl;
 	}
+	catch (exception&) {
+		cout << "FAIL: Unexpected exception caught." << endl;
+		return 1;
+	}
+
+	return 0;
 }
