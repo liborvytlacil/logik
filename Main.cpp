@@ -22,9 +22,11 @@ char matchIndicatorToChar(MatchIndicator matchIndicator) {
 }
 
 int main() {
+	// constants that basically controls the difficulty
 	const int max = 6;
 	const int length = 5;
 
+	// print intro message and instructions
 	cout << "Welcome to Logik!" << endl;
 	cout << "You need to guess a random sequence of " << length << " unique numbers out of the set "
 		"{1, 2, ..., " << max << "}, e.g. 12345" << endl;
@@ -39,16 +41,19 @@ int main() {
 	cout << "**********************************************************" << endl << endl;
 
 
+	// create a sequence to be guessed
 	srand(time(nullptr));
 	auto getRand = []() {return rand(); };
 	std::vector<int> answer = createRandSeuqnce(length, max, getRand);
 
+	// game-loop logic
 	bool win = false;
 	while (!win) {
 		string input;
 		cout << "Enter your guess: ";
 		cin >> input;
 
+		// parse, validate and evaluate the input, print a hint
 		try {
 			vector<int> guess = parseDigitSequence(input);
 			validateNumberSequence(guess, length, max);
