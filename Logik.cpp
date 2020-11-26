@@ -43,7 +43,7 @@ std::vector<MatchIndicator> compareSequences(std::vector<int> guess, std::vector
 	}
 
 	std::vector<MatchIndicator> result;
-	for (int i = 0; i < guess.size(); ++i) {
+	for (size_t i = 0; i < guess.size(); ++i) {
 		if (guess[i] == reference[i]) {
 			result.push_back(MatchIndicator::FULL_MATCH);
 		}

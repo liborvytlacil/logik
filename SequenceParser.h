@@ -11,13 +11,13 @@
 /// <summary>
 /// Indicates a parsing error.
 /// </summary>
-class parse_error : std::exception {
+class parse_error : public std::invalid_argument {
 };
 
 /// <summary>
 /// Indicates an invalid input, e.g. correctly parsed one that did not meet requirements like length etc..
 /// </summary>
-class invalid_input : std::exception {
+class invalid_input : public std::domain_error {
 };
 
 /// <summary>
@@ -41,4 +41,4 @@ std::vector<int> parseDigitSequence(const std::string& input);
 /// <param name="expectedLength">expected length of the sequence.</param>
 /// <param name="expectedMax">max number expected in the sequence.</param>
 /// <returns>void with no side effects on succes, otherwise throws invalid_input.</returns>
-void validateNumberSequence(const std::vector<int> &digitSequence, int expectedLength, int expectedMax);
+void validateNumberSequence(const std::vector<int> &digitSequence, size_t expectedLength, int expectedMax);
