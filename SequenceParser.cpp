@@ -53,7 +53,7 @@ std::vector<int> parseDigitSequence(const std::string& input) {
 }
 
 void validateNumberSequence(const std::vector<int>& digitSequence, size_t expectedLength, int expectedMax) {
-	if (expectedLength < 0 || expectedMax < 0 || expectedLength > expectedMax) {
+	if (expectedLength < 0 || expectedMax < 0 || expectedLength > (size_t) expectedMax) {
 		throw std::invalid_argument("Invalid arguments passed. Both expected length and max must be "
 			"positive with the length smaller than the max");
 	}
