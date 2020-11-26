@@ -7,17 +7,18 @@
 
 #include <vector>
 #include <string>
+#include <stdexcept>
 
 /// <summary>
 /// Indicates a parsing error.
 /// </summary>
-class parse_error : public std::invalid_argument {
+class parse_error : public std::exception {
 };
 
 /// <summary>
 /// Indicates an invalid input, e.g. correctly parsed one that did not meet requirements like length etc..
 /// </summary>
-class invalid_input : public std::domain_error {
+class invalid_input : public std::exception {
 };
 
 /// <summary>
